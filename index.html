@@ -183,7 +183,8 @@
     </div>
 
     <!-- ✅ 여기 id 추가가 핵심 -->
-    <button id="drawButton" onclick="pickRandomNames()">랜덤 편지 대상 뽑기 🎲</button>
+    <button onclick="pickRandomNames(this)">랜덤 편지 대상 뽑기 🎲</button>
+
 
     <div id="result"></div>
   </div>
@@ -202,7 +203,7 @@
 
     const allNames = Object.keys(mapping);
 
-    function pickRandomNames() {
+    function pickRandomNames(button) {
       const inputName = document.getElementById("userName").value.trim();
       const resultDiv = document.getElementById("result");
 
@@ -216,12 +217,8 @@
         return;
       }
 
-      // 미리 정해둔 두 명 가져오기
       const pair = mapping[inputName];
-
-      // 살짝 랜덤 느낌 주려고 순서만 랜덤으로 섞기
       const shuffled = Math.random() < 0.5 ? pair : [pair[1], pair[0]];
-
       const first = shuffled[0];
       const second = shuffled[1];
 
@@ -237,13 +234,11 @@
         </div>
       `;
 
-      // ✅ 버튼 텍스트 변경 + 비활성화
-      const btn = document.getElementById("drawButton");
-      if (btn) {
-        btn.textContent = "짜잔 ✨";
-        btn.disabled = true;
-      }
+      // 🔥 버튼 텍스트 변경 + 비활성화 (this로 받은 버튼 사용)
+      button.textContent = "짜잔 ✨";
+      button.disabled = true;
     }
   </script>
 </body>
 </html>
+
