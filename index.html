@@ -164,26 +164,38 @@
     <h1>💌 11월 콘개팀 팀빌딩 💌</h1>
     <p class="subtitle">
       이름을 입력하면,<br>
-      <b>나를 제외한 팀원 2명</b>이 랜덤으로 뽑혀요. 🥁<br>
+<b>나를 제외한 팀원 2명</b>이 랜덤으로 뽑혀요 🥁<br>
+<b>뽑힌 2명에게 편지를 써보세요!</b>
+
     </p>
 
     <div class="input-row">
       <label for="userName">내 이름</label>
       <input type="text" id="userName" placeholder="예: 정베키">
-      <div class="helper">팀원 명단에 있는 이름을 정확히 적어주세요 :)</div>
+      <div class="helper">본인의 이름을 입력해주세요 :)</div>
     </div>
 
-    <button onclick="pickRandomNames()">오늘의 편지 대상 뽑기 🎲</button>
+    <button onclick="pickRandomNames()">랜덤 편지 대상 뽑기 🎲</button>
 
     <div id="result"></div>
 
   <script>
+    // 이름별로 편지 대상 2명 지정 (공평 매칭표)
+    const mapping = {
+      "윤연호": ["김예원", "윤수빈"],
+      "김예원": ["박수빈", "황명현"],
+      "박수빈": ["윤수빈", "황명현"],
+      "윤수빈": ["신소현", "홍혜상"],
+      "신소현": ["홍혜상", "윤연호"],
+      "홍혜상": ["박수빈", "김예원"],
+      "황명현": ["윤연호", "신소현"]
+    };
+
+    const allNames = Object.keys(mapping);
+
     function pickRandomNames() {
       const inputName = document.getElementById("userName").value.trim();
       const resultDiv = document.getElementById("result");
-
-      // 🔧 여기서 팀원 이름 수정 가능 (총 7명)
-      const allNames = ["윤연호", "김예원", "박수빈", "윤수빈", "신소현", "홍혜상", "황명현"];
 
       if (!inputName) {
         resultDiv.innerHTML = '<span class="error">이름을 입력해 주세요! 😊</span>';
@@ -195,17 +207,14 @@
         return;
       }
 
-      // 나를 제외한 배열 만들기
-      const filtered = allNames.filter(name => name !== inputName);
+      // 미리 정해둔 두 명 가져오기
+      const pair = mapping[inputName];
 
-      // 배열 섞기 (Fisher-Yates)
-      for (let i = filtered.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
-      }
+      // 살짝 랜덤 느낌 주려고 순서만 랜덤으로 섞기
+      const shuffled = Math.random() < 0.5 ? pair : [pair[1], pair[0]];
 
-      const first = filtered[0];
-      const second = filtered[1];
+      const first = shuffled[0];
+      const second = shuffled[1];
 
       resultDiv.innerHTML = `
         <div class="result-title">✨ 오늘 당신이 몰래 편지를 써볼 사람은...</div>
@@ -214,10 +223,12 @@
           <span class="name-tag">${second}</span>
         </div>
         <div class="hint">
-          고마웠던 순간이나 응원 메시지 한 줄도 괜찮아요! 💕
+          고마웠던 순간이나 응원 메시지 한 줄도 괜찮아요! 💕<br>
+          (모든 팀원이 최소 두 번씩 편지를 받도록 짜둔 매칭이에요 🤫)
         </div>
       `;
     }
   </script>
 </body>
 </html>
+
