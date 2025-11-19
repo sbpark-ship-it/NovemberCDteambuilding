@@ -94,15 +94,23 @@
       transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       transform: translateY(-1px);
       box-shadow: 0 12px 24px rgba(255, 143, 171, 0.55);
       filter: brightness(1.03);
     }
 
-    button:active {
+    button:active:not(:disabled) {
       transform: translateY(1px);
       box-shadow: 0 6px 14px rgba(255, 143, 171, 0.4);
+    }
+
+    /* 비활성화된 버튼 스타일 */
+    button:disabled {
+      opacity: 0.7;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
     }
 
     .helper {
@@ -164,9 +172,8 @@
     <h1>💌 11월 콘개팀 팀빌딩 💌</h1>
     <p class="subtitle">
       이름을 입력하면,<br>
-<b>나를 제외한 팀원 2명</b>이 랜덤으로 뽑혀요 🥁<br>
-<b>뽑힌 2명에게 편지를 써보세요!</b>
-
+      <b>나를 제외한 팀원 2명</b>이 랜덤으로 뽑혀요 🥁<br>
+      <b>뽑힌 2명에게 편지를 써보세요!</b>
     </p>
 
     <div class="input-row">
@@ -175,11 +182,13 @@
       <div class="helper">본인의 이름을 입력해주세요 :)</div>
     </div>
 
-    <button onclick="pickRandomNames()">랜덤 편지 대상 뽑기 🎲</button>
+    <!-- ✅ 여기 id 추가가 핵심 -->
+    <button id="drawButton" onclick="pickRandomNames()">랜덤 편지 대상 뽑기 🎲</button>
 
     <div id="result"></div>
+  </div>
 
-    <script>
+  <script>
     // 이름별로 편지 대상 2명 지정 (공평 매칭표)
     const mapping = {
       "윤연호": ["김예원", "윤수빈"],
@@ -228,13 +237,13 @@
         </div>
       `;
 
-      // 버튼 텍스트 변경 + 비활성화
+      // ✅ 버튼 텍스트 변경 + 비활성화
       const btn = document.getElementById("drawButton");
-      btn.textContent = "짜잔 ✨";
-      btn.disabled = true;
+      if (btn) {
+        btn.textContent = "짜잔 ✨";
+        btn.disabled = true;
+      }
     }
   </script>
 </body>
 </html>
-
-
