@@ -179,7 +179,7 @@
 
     <div id="result"></div>
 
-  <script>
+    <script>
     // 이름별로 편지 대상 2명 지정 (공평 매칭표)
     const mapping = {
       "윤연호": ["김예원", "윤수빈"],
@@ -227,8 +227,14 @@
           (모든 팀원이 최소 두 번씩 편지를 받도록 짜둔 매칭이에요 🤫)
         </div>
       `;
+
+      // 버튼 텍스트 변경 + 비활성화
+      const btn = document.getElementById("drawButton");
+      btn.textContent = "짜잔 ✨";
+      btn.disabled = true;
     }
   </script>
 </body>
 </html>
+
 
